@@ -58,7 +58,7 @@ function AdminPanel() {
                 handleSubmit={handleSubmit}
             />
 
-            {envios.length > 0 && <ListContainer envios={envios} />}
+            {envios.length > 0 && <ListContainer envios={envios} setEnvios={setEnvios} />}
 
             {/*   <button onClick={() => setShowModal(true)}>Email Template</button>
 
