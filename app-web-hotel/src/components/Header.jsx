@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styles from './Header.module.css';
+import EmailModal from './EmailModal';
+import { useNavigate } from 'react-router-dom';
 
-function Header() {
-    const [showModal, setShowModal] = useState(false);
+function Header({ showModal, setShowModal, onSaveTemplate }) {
+    const navigate = useNavigate();
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -10,6 +12,14 @@ function Header() {
 
     const handleCloseModal = () => {
         setShowModal(false);
+    };
+
+    const handleLogout = () => {
+        // Lógica para cerrar sesión (sin borrar localStorage)
+        // ... (otras acciones de cierre de sesión, como limpiar el estado global, etc.)
+
+        // Redirigir al login
+        navigate('/');
     };
 
     return (
@@ -23,15 +33,16 @@ function Header() {
                 <button onClick={handleOpenModal} className={styles.button}>
                     Editar plantilla de correo
                 </button>
-                <button className={styles.button}>Cerrar sesión</button>
+                <button onClick={handleLogout} className={styles.button}>
+                    Cerrar sesión
+                </button>
             </div>
 
-            {/* Modal (por ahora solo un contenedor vacío) */}
-            {showModal && (
-                <div className={styles.modal}>
-                    {/* Aquí irá el contenido del modal */}
-                </div>
-            )}
+            <EmailModal
+                isOpen={showModal}
+                onClose={handleCloseModal}
+                onSaveTemplate={onSaveTemplate}
+            />
         </header>
     );
 }

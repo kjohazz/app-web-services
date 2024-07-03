@@ -4,24 +4,40 @@ import EmailForm from './EmailForm';
 import ClientList from './ClientList';
 import EditClientModal from './EditClientModal';
 import styles from './AdminPanel.module.css';
+import EmailModal from './EmailModal';
 
 function AdminPanel() {
     const [clients, setClients] = useState([]);
     const [editingClient, setEditingClient] = useState(null);
+    const [emailTemplate, setEmailTemplate] = useState('');
 
     useEffect(() => {
-        // Cargar clientes desde localStorage al montar el componente
+        // Cargar clientes desde localStorage
         const storedClients = JSON.parse(localStorage.getItem('clients')) || [];
         setClients(storedClients);
 
-        // Agregar un event listener para detectar cambios en localStorage
+        // Cargar plantilla de correo desde localStorage
+        const storedTemplate = localStorage.getItem('emailTemplate');
+        if (storedTemplate) {
+            setEmailTemplate(storedTemplate);
+        } else {
+            setEmailTemplate(
+                "Estimado/a cliente,\n\n" +
+                "Gracias por elegir nuestros servicios fotográficos durante su aventura en el Hotel Guachipelín. ¡Esperamos que haya disfrutado de su estadía!\n\n" +
+                "Nos complace compartirle el enlace para acceder a sus fotografías: landingPage.com\n" +
+                "Para acceder a la descarga, por favor ingrese el siguiente código único en el campo correspondiente: [xxxxxxxx]\n\n" +
+                "Agradecemos su preferencia y esperamos tener el placer de recibirle nuevamente en el futuro.\n\n" +
+                "Atentamente,\n" +
+                "El equipo del Hotel Guachipelín"
+            );
+        }
+
         const handleStorageChange = () => {
             const updatedClients = JSON.parse(localStorage.getItem('clients')) || [];
             setClients(updatedClients);
         };
         window.addEventListener('storage', handleStorageChange);
 
-        // Limpiar el event listener al desmontar el componente
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
@@ -62,19 +78,35 @@ function AdminPanel() {
         setEditingClient(null);
     };
 
+
+    const handleSaveTemplate = (newTemplate) => {
+        setEmailTemplate(newTemplate);
+        localStorage.setItem('emailTemplate', newTemplate);
+    };
+    const [showModal, setShowModal] = useState(false);
+
     return (
         <div>
-            <Header />
+            <Header
+                onSaveTemplate={handleSaveTemplate}
+                showModal={showModal}
+                setShowModal={setShowModal}
+            />
+            <EmailModal
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                onSaveTemplate={handleSaveTemplate}
+            />
             <div className={styles.container}>
-                <div className={styles.column}>
-                    <EmailForm onClientAdded={handleAddClient} />
+                <div className={`${styles.column} ${styles.columnForm}`}>
+                    <EmailForm onClientAdded={handleAddClient} emailTemplate={emailTemplate} />
                 </div>
-                <div className={styles.column}>
+                <div className={`${styles.column} ${styles.columnList}`}>
                     <ClientList
                         clients={clients}
                         onEditClient={handleEditClient}
                         onDeleteClient={handleDeleteClient}
-                        setClients={setClients} // Pasar setClients como prop
+                        setClients={setClients}
                     />
                 </div>
             </div>

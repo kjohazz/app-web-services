@@ -1,0 +1,78 @@
+/* EmailModal.module.css */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Asegura que el modal esté por encima de otros elementos */
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 850px; /* Ajusta el ancho máximo según tus necesidades */
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 10rem;
+    right: 10rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #000000; /* Color gris para el botón de cierre */
+    transition: color 0.2s ease; /* Transición suave al cambiar de color */
+  }
+  
+  .closeButton:hover {
+    color: #333; /* Color gris más oscuro al pasar el mouse */
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #f59e0b; /* Color naranja para el título */
+  }
+  
+  .textarea {
+    width: 100%;
+    height: 200px; /* Ajusta la altura según tus necesidades */
+    padding: 1rem;
+    resize: vertical;
+    border: 1px solid #e5e7eb; /* Borde gris claro */
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .textarea:focus {
+    outline: none;
+    border-color: #f59e0b; /* Borde naranja al enfocar */
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2); /* Sombra naranja al enfocar */
+  }
+  
+  .saveButton {
+    background-color: #dc2626; /* Rojo */
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s ease; /* Transición suave al cambiar de color */
+  }
+  
+  .saveButton:hover {
+    background-color: #b91c1c; /* Rojo más oscuro al pasar el mouse */
+  }
+  

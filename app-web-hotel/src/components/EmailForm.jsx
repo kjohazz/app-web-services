@@ -1,53 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import styles from './EmailForm.module.css';
 
-function EmailForm({ onClientAdded }) { // Agrega la prop onClientAdded
+function EmailForm({ onClientAdded, emailTemplate }) {
     const [email, setEmail] = useState('');
     const [driveLink, setDriveLink] = useState('');
     const [uniqueCode, setUniqueCode] = useState('');
-    const [emailTemplate, setEmailTemplate] = useState('');
-
-    useEffect(() => {
-        // Cargar la plantilla de correo desde el modal (o desde localStorage) al montar el componente
-        const storedTemplate = localStorage.getItem('emailTemplate');
-        setEmailTemplate(storedTemplate || ''); // Usar la plantilla almacenada o una predeterminada
-    }, []);
 
     const generateUniqueCode = () => {
-        // Lógica para generar un código único (puedes usar una biblioteca como uuid)
         const code = Math.random().toString(36).substring(2, 15);
         return code;
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
 
         const code = generateUniqueCode();
         setUniqueCode(code);
 
-        // Datos del cliente
         const clientData = {
             email,
             driveLink,
             uniqueCode: code,
         };
 
-        // Enviar correo electrónico (utilizando una biblioteca como EmailJS o un servicio externo)
-        try {
-            // ... lógica para enviar el correo con la plantilla y los datos del cliente ...
-            console.log('Correo enviado:', clientData);
+        // Enviar datos del cliente a la base de datos (localStorage)
+        onClientAdded(clientData);
 
-            // Notificar al componente padre (AdminPanel) para agregar el cliente a la lista
-            onClientAdded(clientData);
+        // Enviar plantilla de correo con el código único a la consola
+        const emailToSend = emailTemplate.replace('[xxxxxxxx]', code);
+        console.log("Correo a enviar:", emailToSend);
 
-            // Limpiar campos del formulario
-            setEmail('');
-            setDriveLink('');
-            setUniqueCode('');
-        } catch (error) {
-            console.error('Error al enviar el correo:', error);
-            // Manejo de errores (mostrar mensaje al usuario)
-        }
+        setEmail('');
+        setDriveLink('');
+        setUniqueCode('');
     };
 
     return (
@@ -102,7 +87,6 @@ function EmailForm({ onClientAdded }) { // Agrega la prop onClientAdded
             </form>
         </div>
     );
-
 }
 
 export default EmailForm;
