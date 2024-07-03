@@ -1,0 +1,76 @@
+/* ClientList.module.css */
+.container {
+    background-color: #fff; /* Fondo blanco */
+    padding: 2rem;
+    border-radius: 8px; /* Bordes redondeados */
+    margin-left: 100px;
+    margin-top: 100px;
+  /*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); Sombra sutil */
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #f59e0b; /* Color naranja para el título */
+  }
+  
+  .list {
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 0;
+  }
+  
+  .listItem {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    border-bottom: 1px solid #eee; /* Línea divisoria entre elementos */
+    transition: background-color 0.2s ease; /* Transición suave al pasar el mouse */
+  }
+  
+  .listItem:hover {
+    background-color: #f9fafb; /* Fondo gris claro al pasar el mouse */
+  }
+  
+  .listItem span {
+    margin-right: 1rem; /* Espacio entre los elementos de cada cliente */
+    flex: 1; /* Permite que el texto se expanda para ocupar el espacio disponible */
+    overflow: hidden; /* Oculta el texto que se desborda */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos (...) al texto desbordado */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  }
+  
+  .editButton {
+    background-color: transparent; /* Fondo transparente */
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease; /* Transición suave al cambiar de color */
+  }
+  
+  .editButton:hover {
+    background-color: #f59e0b; /* Color naranja al pasar el mouse */
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    margin-top: 1rem;
+  }
+  
+  .actionButton {
+    background-color: #dc2626; /* Rojo */
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 1rem; /* Espacio entre los botones */
+    transition: background-color 0.2s ease; /* Transición suave al cambiar de color */
+  }
+  
+  .actionButton:hover {
+    background-color: #b91c1c; /* Rojo más oscuro al pasar el mouse */
+  }
+  

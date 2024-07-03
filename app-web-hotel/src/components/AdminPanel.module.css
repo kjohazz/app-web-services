@@ -1,0 +1,13 @@
+/* AdminPanel.module.css */
+/* AdminPanel.module.css */
+.container {
+  display: flex;
+  gap: 2rem; /* Espacio entre las columnas */
+  min-height: 100vh;
+}
+
+.column {
+  /* Eliminamos flex: 1 */
+  min-width: 0; 
+}
+
