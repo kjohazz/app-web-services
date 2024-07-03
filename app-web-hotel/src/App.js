@@ -1,10 +1,16 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LoginForm from './components/LoginForm';
+import AdminPanel from './components/AdminPanel';
 
 function App() {
   return (
-    <div className="App">
-      Hello Word
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/admin" element={<AdminPanel />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
