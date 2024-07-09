@@ -1,0 +1,50 @@
+import React, { useState } from 'react';
+import styles from './Header.module.css';
+import EmailModal from './EmailModal';
+import { useNavigate } from 'react-router-dom';
+
+function Header({ showModal, setShowModal, onSaveTemplate }) {
+    const navigate = useNavigate();
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const handleLogout = () => {
+        // Lógica para cerrar sesión (sin borrar localStorage)
+        // ... (otras acciones de cierre de sesión, como limpiar el estado global, etc.)
+
+        // Redirigir al login
+        navigate('/');
+    };
+
+    return (
+        <header className={styles.header}>
+            <div className={styles.logo}>
+                {/* Aquí puedes agregar el logo de tu empresa */}
+                <img src="/path/to/logo.png" alt="Logo" />
+            </div>
+
+            <div className={styles.buttons}>
+                <button onClick={handleOpenModal} className={styles.button}>
+                    Editar plantilla de correo
+                </button>
+                <button onClick={handleLogout} className={styles.button}>
+                    Cerrar sesión
+                </button>
+            </div>
+
+            <EmailModal
+                isOpen={showModal}
+                onClose={handleCloseModal}
+                onSaveTemplate={onSaveTemplate}
+            />
+        </header>
+    );
+}
+
+export default Header;

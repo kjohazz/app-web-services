@@ -1,21 +1,16 @@
 import React from 'react';
-import AdminPanel from './components/AdminPanel/AdminPanel';
-import Header from './components/Header/Header';
-//import Navigation from './components/Navigation/Navigation';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LoginForm from './components/LoginForm';
+import AdminPanel from './components/AdminPanel';
 
 function App() {
-  /*const homeLinks = [
-    { url: '/', text: 'Inicio' },
-    { url: '/tours', text: 'Tours' },
-    { url: '/contacto', text: 'Contacto' }
-  ];*/
-
   return (
-    <div className="App">
-      <Header />
-
-      <AdminPanel />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/admin" element={<AdminPanel />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
