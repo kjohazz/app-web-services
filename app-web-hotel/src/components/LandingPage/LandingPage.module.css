@@ -1,0 +1,26 @@
+/* LandingPage.module.css */
+.landingPage {
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columna */
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+  }
+  
+  .content {
+    display: flex;
+    flex: 1; /* El contenido ocupa el espacio restante después del Header */
+  }
+  
+  .galleryContainer {
+    flex: 2; /* La galería ocupa 2/3 del ancho */
+    padding: 2rem;
+  }
+  
+  .formContainer {
+    flex: 1; /* El formulario ocupa 1/3 del ancho */
+    background-color: white;
+    padding: 2rem;
+    display: flex; /* Para centrar el formulario verticalmente */
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+  }
+  

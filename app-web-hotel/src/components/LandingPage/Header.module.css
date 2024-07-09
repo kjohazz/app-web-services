@@ -1,0 +1,69 @@
+/* Header.module.css (dentro de la carpeta LandingPage) */
+
+.header {
+    display: flex;
+    flex-direction: column; /* Organiza el menú y el banner en columna */
+  }
+  
+  /* Estilos para el menú (fondo vinotinto) */
+  .menu {
+    background-color: #800000; /* Color vinotinto */
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around; /* Distribuye los elementos uniformemente */
+  }
+  
+  .menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease; /* Transición suave al pasar el mouse */
+  }
+  
+  .menu a:hover {
+    color: #f87171; /* Color rojo claro al pasar el mouse */
+  }
+  
+  /* Estilos para el banner (sin fondo) */
+  .banner {
+    position: relative; /* Para posicionar el botón de play */
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  .bannerImage {
+    width: 100%;
+    height: 400px; /* Ajusta la altura según tus necesidades */
+    object-fit: cover; /* Cubre todo el contenedor manteniendo la proporción */
+  }
+  
+  /* Estilos para el botón de reproducción */
+  .playButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrar el botón */
+    background-color: rgba(255, 255, 255, 0.7); /* Blanco semi-transparente */
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .playButton:hover {
+    background-color: rgba(255, 255, 255, 0.9); /* Blanco más opaco al pasar el mouse */
+  }
+  
+  .playButton svg {
+    /* Estilos para el icono de reproducción (usa tu biblioteca de iconos) */
+    width: 24px;
+    height: 24px;
+    fill: #dc2626; /* Color rojo para el icono */
+  }
+  

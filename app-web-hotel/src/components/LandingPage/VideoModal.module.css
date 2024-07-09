@@ -1,0 +1,45 @@
+/* VideoModal.module.css (dentro de la carpeta LandingPage) */
+
+.modalOverlay {
+    position: fixed; /* Para cubrir toda la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Asegura que el modal esté por encima de otros elementos */
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    position: relative; /* Para posicionar el botón de cierre */
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #888; /* Color gris para el botón de cierre */
+    transition: color 0.2s ease; /* Transición suave al cambiar de color */
+  }
+  
+  .closeButton:hover {
+    color: #333; /* Color gris más oscuro al pasar el mouse */
+  }
+  
+  .video {
+    width: 80%; /* Ajusta el ancho del video según tus necesidades */
+    height: 60%; /* Ajusta la altura del video según tus necesidades */
+    max-width: 853px; /* Ancho máximo para evitar que el video se salga de la pantalla */
+    max-height: 480px; /* Altura máxima para evitar que el video se salga de la pantalla */
+  }
+  
