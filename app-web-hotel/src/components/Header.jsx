@@ -26,7 +26,7 @@ function Header({ showModal, setShowModal, onSaveTemplate }) {
         <header className={styles.header}>
             <div className={styles.logo}>
                 {/* Aquí puedes agregar el logo de tu empresa */}
-                <img src="/path/to/logo.png" alt="Logo" />
+                <img src="/hotel-hacienda-guachipelin-logo.png" alt="Logo" />
             </div>
 
             <div className={styles.buttons}>
