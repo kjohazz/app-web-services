@@ -1,13 +1,13 @@
 /* ImageGallery.module.css */
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Columnas flexibles que se ajustan al espacio disponible */
-    grid-gap: 1rem; /* Espacio entre las imágenes */
+    /* Estilos generales de la galería (puedes personalizarlos) */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    height: 100%; /* Ocupa toda la altura disponible */
   }
   
   .image {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover; /* Cubre todo el espacio del contenedor */
     border: 1px solid white; /* Borde blanco */
   }
