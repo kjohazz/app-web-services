@@ -8,6 +8,6 @@
 
 .column {
   /* Eliminamos flex: 1 */
-  min-width: 0; 
+  min-width: 500px; 
 }
 
