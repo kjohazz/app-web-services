@@ -27,10 +27,10 @@ function LoginForm() {
     return (
         <div className={styles.container}>
             <form onSubmit={handleSubmit} className={styles.form}>
-                <h2 className={styles.title}>Log In</h2>
+                <h2 className={styles.title}>INICIO DE SESIÓN</h2>
 
                 <div className={styles.inputGroup}>
-                    <label htmlFor="email" className={styles.label}>USUARIO</label>
+                    <label htmlFor="email" className={styles.label}>Usuario</label>
                     <input
                         type="email"
                         id="email"
@@ -42,7 +42,7 @@ function LoginForm() {
                 </div>
 
                 <div className={styles.inputGroup}>
-                    <label htmlFor="password" className={styles.label}>CONTRASEÑA</label>
+                    <label htmlFor="password" className={styles.label}>Contraseña</label>
                     <input
                         type="password"
                         id="password"
@@ -54,7 +54,7 @@ function LoginForm() {
                 </div>
 
                 <button type="submit" className={styles.button}>
-                    ACCEDER
+                    Acceder
                 </button>
             </form>
         </div>

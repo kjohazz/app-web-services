@@ -2,7 +2,7 @@
 
 .formContainer {
     background-color: #edece3; /* Fondo gris claro para el contenedor */
-    padding: 2rem;
+    padding: 4rem;
     border-radius: 8px; /* Bordes redondeados */
     min-height: 100vh;
     width: 100%;
@@ -12,21 +12,27 @@
     background-color: white;
     margin-top: 100px;
     padding: 2rem;
-    border-radius: 8px;
+    border-radius: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    display: flex;
+    flex-direction: column;
   }
   
   .title {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 1.5rem;
-    color: #f59e0b; /* Color naranja para el título */
+    color: #131313; /* Color naranja para el título */
   }
   
   .inputGroup {
     display: flex;
     flex-direction: column;
     margin-bottom: 1.5rem;
+  }
+
+  .inputWithButton {
+    display: flex;
   }
   
   .label {
@@ -49,7 +55,7 @@
   }
   
   .button {
-    background-color: #dc2626; /* Rojo */
+    background-color: #ea9d46; /* Rojo */
     color: white;
     padding: 0.8rem 1.5rem;
     border: none;
@@ -60,7 +66,7 @@
   }
   
   .button:hover {
-    background-color: #b91c1c; /* Rojo más oscuro al pasar el mouse */
+    background-color: #ea9d46; /* Rojo más oscuro al pasar el mouse */
   }
   
   .codeDisplay {
@@ -69,3 +75,17 @@
     color: #6b7280; /* Color gris para el código único */
   }
   
+  .copyButton {
+    background-color: transparent; /* Fondo transparente */
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem; /* Ajusta el padding según el tamaño del icono */
+    display: flex;
+    align-items: center; /* Centrar verticalmente el icono */
+  }
+  
+  .copyIcon {
+    width: 20px; /* Ajusta el tamaño del icono */
+    height: 20px;
+    fill: #63001a; /* Color rojo para el icono */
+  }
