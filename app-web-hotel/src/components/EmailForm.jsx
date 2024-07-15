@@ -8,11 +8,11 @@ function EmailForm({ onClientAdded, emailTemplate }) {
 
     // Generar código único al cambiar el correo electrónico
     useEffect(() => {
-        if (email) { // Solo generar si hay un correo
+        if (email) {
             const code = generateUniqueCode();
             setUniqueCode(code);
         } else {
-            setUniqueCode(''); // Limpiar el código si no hay correo
+            setUniqueCode('');
         }
     }, [email]);
 
@@ -24,10 +24,12 @@ function EmailForm({ onClientAdded, emailTemplate }) {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        // Datos del cliente (creado dentro de handleSubmit)
         const clientData = {
             email,
             driveLink,
-            uniqueCode: uniqueCode, // Usar el código único generado
+            uniqueCode,
+            date: new Date().toLocaleDateString('es-CR'),
         };
 
         // Enviar datos del cliente a la base de datos (localStorage)
@@ -44,6 +46,7 @@ function EmailForm({ onClientAdded, emailTemplate }) {
 
     const handleCopyCode = () => {
         navigator.clipboard.writeText(uniqueCode);
+        alert('Código único copiado al portapapeles');
     };
 
     return (

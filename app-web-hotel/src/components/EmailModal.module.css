@@ -41,7 +41,7 @@
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 1rem;
-    color: #f59e0b; /* Color naranja para el título */
+    color: #131313; /* Color naranja para el título */
   }
   
   .textarea {
@@ -61,7 +61,7 @@
   }
   
   .saveButton {
-    background-color: #dc2626; /* Rojo */
+    background-color: #ea9d46; /* Rojo */
     color: white;
     padding: 0.8rem 1.5rem;
     border: none;
@@ -73,6 +73,6 @@
   }
   
   .saveButton:hover {
-    background-color: #b91c1c; /* Rojo más oscuro al pasar el mouse */
+    background-color: #ea9d46; /* Rojo más oscuro al pasar el mouse */
   }
   
