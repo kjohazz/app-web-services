@@ -1,9 +1,7 @@
 /* UniqueCodeForm.module.css */
 .formContainer {
-    background-color: white;
     padding: 2rem;
     border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
     text-align: center; /* Alineación del texto al centro */
   }
   
@@ -50,6 +48,7 @@
   }
   
   .input {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem; /* Aumentar el padding */
     border: 1px solid #ccc;
     border-radius: 8px; /* Bordes más redondeados */

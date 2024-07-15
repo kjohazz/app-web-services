@@ -3,8 +3,9 @@
     background-color: #fff; /* Fondo blanco */
     padding: 2rem;
     border-radius: 8px; /* Bordes redondeados */
-    margin-left: 100px;
-    margin-top: 100px;
+    margin-left: 50px;
+    margin-top: 50px;
+    width: 500px;
   /*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); Sombra sutil */
   }
   
@@ -12,7 +13,7 @@
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 1.5rem;
-    color: #f59e0b; /* Color naranja para el título */
+    color: #131313; /* Color naranja para el título */
   }
   
   .list {
@@ -26,6 +27,7 @@
     padding: 0.8rem;
     border-bottom: 1px solid #eee; /* Línea divisoria entre elementos */
     transition: background-color 0.2s ease; /* Transición suave al pasar el mouse */
+    border-bottom: solid 1px black;
   }
   
   .listItem:hover {
@@ -38,6 +40,7 @@
     overflow: hidden; /* Oculta el texto que se desborda */
     text-overflow: ellipsis; /* Agrega puntos suspensivos (...) al texto desbordado */
     white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+
   }
   
   .editButton {
@@ -60,7 +63,7 @@
   }
   
   .actionButton {
-    background-color: #dc2626; /* Rojo */
+    background-color: #ea9d46; /* Rojo */
     color: white;
     padding: 0.5rem 1rem;
     border: none;
@@ -71,6 +74,75 @@
   }
   
   .actionButton:hover {
-    background-color: #b91c1c; /* Rojo más oscuro al pasar el mouse */
+    background-color: #ea9d46; /* Rojo más oscuro al pasar el mouse */
   }
   
+  .editButton:hover svg {
+    stroke: white; /* Cambia el color del trazo a blanco al pasar el mouse */
+  }
+
+  .editButton svg {
+    width: 16px; /* Ajusta el tamaño según tus preferencias */
+    height: 16px;
+  }
+
+  .deleteButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .deleteButton:hover {
+    background-color: #f59e0b; /* Naranja al pasar el mouse */
+  }
+  
+  .deleteButton:hover svg {
+    stroke: white; /* Blanco al pasar el mouse */
+  }
+
+  .deleteButton svg {
+    width: 16px; /* Ajusta el tamaño según tus preferencias */
+    height: 16px;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+ 
+  .pagination li {
+    margin: 0 0.5rem;
+  }
+  
+  .pagination a {
+    display: flex; /* Cambiamos a flex para alinear el icono y el texto (si lo hay) */
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .pagination a:hover {
+    background-color: #f59e0b;
+    color: white;
+  }
+  
+  .activePage a {
+    background-color: #f59e0b;
+    color: white;
+  }
+  
+  .paginationIcon {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.5rem; /* Espacio entre el icono y el texto (si lo hay) */
+  }
