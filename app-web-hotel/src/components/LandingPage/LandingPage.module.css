@@ -13,9 +13,15 @@
   flex: 1;
   flex-direction: column; /* Apila las secciones en vertical en pantallas pequeñas */
   margin: 2rem auto;
-  max-width: 1400px;
+width: 90%;
   padding: 0 1rem;
 }
+
+@media (min-width: 768px) {
+.content {
+  max-width: 1400px;
+}
+    }
 
 /* Sección izquierda (formulario y galería pequeña) */
 .leftSection {
