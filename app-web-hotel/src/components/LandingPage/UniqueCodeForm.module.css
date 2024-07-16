@@ -1,69 +1,99 @@
 /* UniqueCodeForm.module.css */
 .formContainer {
+  border-radius: 0.5rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tourSection {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.tourTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.offer {
+  font-size: 1.2rem;
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* Estilos para el contenedor del formulario */
+.formWrapper {
+  position: relative; /* Para posicionar el botón absolutamente */
+  margin-bottom: 2rem;
+}
+
+/* Estilos para el formulario */
+.form {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el contenedor del input y el botón */
+.inputContainer {
+  display: flex;
+  align-items: center; /* Alineamos verticalmente al centro */
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 0.5rem;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.searchIcon {
+  margin-top: 1rem;
+  width: 20px;
+  margin-left: 1rem; /* Espacio a la izquierda del icono */
+  color: #888; /* Color gris para el icono */
+}
+
+.input {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+/* Estilos para el botón */
+.button {
+  background-color: #ea9d46;
+  color: white;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .formContainer {
     padding: 2rem;
-    border-radius: 0.5rem;
-    text-align: center; /* Alineación del texto al centro */
   }
-  
-  .title {
-    font-size: 1.8rem; /* Tamaño de fuente más grande */
-    font-weight: bold;
-    margin-bottom: 0.5rem; /* Reducir el margen inferior */
+  .formWrapper {
+    width: 75%;
   }
-  
-  .tourSection {
-    margin-bottom: 2rem;
-    text-align: left; /* Alineación del texto a la izquierda */
-  }
-  
-  .tourTitle {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  .tags {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem; /* Agregar margen inferior a las etiquetas */
-  }
-  
-  .tag {
-    background-color: #f0f0f0; /* Color de fondo más claro */
-    padding: 0.4rem 0.8rem; /* Aumentar el padding */
-    border-radius: 20px; /* Bordes más redondeados */
-    font-size: 0.9rem; /* Tamaño de fuente más grande */
-    font-weight: 500; /* Fuente semi-negrita */
-  }
-  
-  .offer {
-    font-size: 1.2rem; /* Tamaño de fuente más grande */
-    color: #dc2626;
-    font-weight: bold;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column; /* Organizar los elementos en columna */
-  }
-  
-  .input {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1rem; /* Aumentar el padding */
-    border: 1px solid #ccc;
-    border-radius: 8px; /* Bordes más redondeados */
-    margin-bottom: 1rem; /* Espacio entre el input y el botón */
-    width: 100%; /* Ancho completo */
-    box-sizing: border-box; /* Incluir el borde y el padding en el ancho total */
-  }
-  
-  .button {
-    background-color: #dc2626;
-    color: white;
-    padding: 1rem; /* Aumentar el padding */
-    border: none;
-    border-radius: 8px; /* Bordes más redondeados */
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
+    }

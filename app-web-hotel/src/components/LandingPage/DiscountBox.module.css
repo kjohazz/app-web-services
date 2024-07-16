@@ -1,18 +1,30 @@
 /* DiscountBox.module.css */
 .discountBox {
-    background-color: #800000; /* Color guinda */
-    color: white;
+    background-color: #ffffff; /* Color guinda */
+    color: rgb(0, 0, 0);
     padding: 1rem;
     border-radius: 8px;
-    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-left: 2rem;
   }
   
   .discountText {
-    font-size: 1.2rem;
+    font-size: 2rem;
     font-weight: bold;
   }
   
   .discountSubtext {
-    font-size: 0.9rem;
+    font-size: 1.7rem;
   }
   
+  .discountTitle {
+    margin-bottom: 110px;
+    font-size: 2.2rem;
+    color: #63001a;
+  }
+
+  @media (min-width: 768px) {
+.discountBox{
+  margin-top: 200px;
+}
+        }
