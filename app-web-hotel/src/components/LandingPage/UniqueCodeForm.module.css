@@ -96,4 +96,9 @@
   .formWrapper {
     width: 75%;
   }
+  .formContainer {
+    margin-bottom: 100px;
+    margin-top: 60px;
+  }
+  
     }

@@ -13,13 +13,13 @@
   flex: 1;
   flex-direction: column; /* Apila las secciones en vertical en pantallas pequeñas */
   margin: 2rem auto;
-width: 90%;
+  width: 97%;
   padding: 0 1rem;
 }
 
 @media (min-width: 768px) {
 .content {
-  max-width: 1400px;
+  max-width: 1250px;
 }
     }
 
@@ -43,11 +43,28 @@ width: 90%;
 }
 
 .gallerySmall {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-gap: 1rem;
-  margin-top: 2rem;
-  height: 250px; /* Altura fija para la galería pequeña */
+  display: flex; 
+  gap: 1rem;
+}
+
+.galleryCont1 img {
+  width: 311px!important;
+  height: 151px!important;
+}
+
+.galleryCont1 {
+  margin-top: 163px;
+}
+
+.gallerycontent2 {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gallerycontent2 img {
+  width: 311px!important;
+  height: 151px!important;
 }
 
 /* Sección derecha (DiscountBox y galerías) */
@@ -57,6 +74,11 @@ width: 90%;
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 1rem;
+}
+
+.galleryTop img {
+  width: 311px!important;
+  height: 190px!important;
 }
 
 .topBox {
@@ -73,16 +95,18 @@ width: 90%;
 }
 
 .galleryBottom {
-  width: 100%;
-  height: 300px; /* Altura fija para la imagen inferior derecha */
+  width: 100%; /* Altura fija para la imagen inferior derecha */
   object-fit: cover;
   border: 1px solid white;
+}
+
+.galleryBottom img {
+  height: 160px!important;
 }
 
 /* Estilos para las imágenes */
 .image {
   width: 100%;
-  height: 100%;
   object-fit: cover; /* Cubre todo el espacio del contenedor manteniendo la proporción de aspecto */
   border: 1px solid white;
 }
@@ -114,7 +138,7 @@ width: 90%;
   }
 
   .topBox > div { /* Aplicar a los hijos directos de .topBox */
-    width: 50%; /* Cada hijo ocupa el 50% del ancho */
+    width: 50%;
   }
 
   .formContainer {
