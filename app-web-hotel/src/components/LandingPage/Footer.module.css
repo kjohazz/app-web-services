@@ -1,0 +1,63 @@
+/* Footer.module.css */
+.footer {
+    background-color: #63001a; /* Color de fondo */
+    color: white;
+    padding: 2rem 0; /* Espacio interior superior e inferior */
+  }
+  
+  .content {
+    display: flex;
+    justify-content: space-between; /* Distribuir elementos uniformemente */
+    align-items: center;
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centrar el contenido */
+  }
+  
+  .award {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+  }
+  
+  .award img {
+    max-width: 150px; /* Ajustar el ancho máximo de la imagen */
+  }
+  
+  .info {
+    text-align: left; /* Centrar el texto de la información */
+  }
+  
+  .hotelName {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .phoneNumber {
+    margin: 0.25rem 0;
+  }
+  
+  .contactLink {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .socialIcons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .icon {
+    width: 24px;
+    height: 24px;
+    fill: white;
+  }
+  
+  .year {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .socialIcons svg {
+    width: 24px;
+    height: 24px;
+  }

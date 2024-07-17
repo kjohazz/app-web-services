@@ -4,6 +4,7 @@ import UniqueCodeForm from './UniqueCodeForm';
 import DiscountBox from './DiscountBox';
 import styles from './LandingPage.module.css';
 import ImageGallery from './ImageGallery';
+import Footer from './Footer';
 
 
 
@@ -50,9 +51,14 @@ function LandingPage({ clients }) {
         <div className={styles.leftSection}>
           <UniqueCodeForm clients={clients} />
           <div className={styles.gallerySmall}>
-            <ImageGallery images={gallery01} imagesIndex={imagesIndex[0]} updateImageIndex={(newIndex) => handleImageIndexChange(0, newIndex)} />
-            <ImageGallery images={gallery02} imagesIndex={imagesIndex[2]} updateImageIndex={(newIndex) => handleImageIndexChange(2, newIndex)} />
-            <ImageGallery images={gallery03} imagesIndex={imagesIndex[4]} updateImageIndex={(newIndex) => handleImageIndexChange(4, newIndex)} />
+            <div className={styles.galleryCont1}>
+              <ImageGallery images={gallery01} imagesIndex={imagesIndex[0]} updateImageIndex={(newIndex) => handleImageIndexChange(0, newIndex)} />
+            </div>
+            <div className={styles.gallerycontent2}>
+              <ImageGallery images={gallery02} imagesIndex={imagesIndex[2]} updateImageIndex={(newIndex) => handleImageIndexChange(2, newIndex)} />
+              <ImageGallery images={gallery03} imagesIndex={imagesIndex[4]} updateImageIndex={(newIndex) => handleImageIndexChange(4, newIndex)} />
+            </div>
+
           </div>
         </div>
         <div className={styles.rightSection}>
@@ -64,7 +70,6 @@ function LandingPage({ clients }) {
                 <ImageGallery images={gallery05} imagesIndex={imagesIndex[7]} updateImageIndex={(newIndex) => handleImageIndexChange(7, newIndex)} />
                 <ImageGallery images={gallery06} imagesIndex={imagesIndex[7]} updateImageIndex={(newIndex) => handleImageIndexChange(7, newIndex)} />
               </div>
-
             </div>
           </div>
 
@@ -74,6 +79,7 @@ function LandingPage({ clients }) {
         </div>
 
       </div>
+      <Footer /> {/* Agregar el componente Footer */}
     </div>
   );
 
