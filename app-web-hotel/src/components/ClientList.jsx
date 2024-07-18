@@ -2,10 +2,30 @@ import React, { useState, useEffect } from 'react';
 import styles from './ClientList.module.css';
 import ReactPaginate from 'react-paginate';
 
-function ClientList({ clients, onEditClient, onDeleteClient, setClients }) {
-    const [selectedClients, setSelectedClients] = useState([]);
+function ClientList({ onEditClient }) {
+    const [clients, setClients] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [selectedClients, setSelectedClients] = useState([]);
     const itemsPerPage = 8;
+
+    useEffect(() => {
+        // Obtener clientes desde el backend al montar el componente
+        const fetchClients = async () => {
+            try {
+                const response = await fetch('/api/clientes');
+                if (response.ok) {
+                    const data = await response.json();
+                    setClients(data);
+                } else {
+                    console.error('Error al obtener los clientes del backend:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error de red al obtener los clientes:', error);
+            }
+        };
+
+        fetchClients();
+    }, []);
 
     useEffect(() => {
         setSelectedClients([]);
@@ -14,7 +34,7 @@ function ClientList({ clients, onEditClient, onDeleteClient, setClients }) {
     const offset = currentPage * itemsPerPage;
     const currentClients = clients.slice(offset, offset + itemsPerPage);
 
-    const handlePageChange = ({ selected }) => { // Esta es la función que faltaba pasar como prop
+    const handlePageChange = ({ selected }) => {
         setCurrentPage(selected);
     };
 
@@ -32,9 +52,18 @@ function ClientList({ clients, onEditClient, onDeleteClient, setClients }) {
         onEditClient(client);
     };
 
-    const handleDeleteClick = (clientId) => {
+    const handleDeleteClick = async (clientId) => {
         if (window.confirm('¿Estás seguro de que quieres eliminar este cliente?')) {
-            onDeleteClient(clientId);
+            try {
+                const response = await fetch(`/api/clientes/${clientId}`, { method: 'DELETE' });
+                if (response.ok) {
+                    setClients(clients.filter((client) => client.uniqueCode !== clientId));
+                } else {
+                    console.error('Error al eliminar el cliente:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error de red al eliminar el cliente:', error);
+            }
         }
     };
 
@@ -56,15 +85,27 @@ function ClientList({ clients, onEditClient, onDeleteClient, setClients }) {
         element.click();
     };
 
-    const handleDeleteSelected = (event) => {
+    const handleDeleteSelected = async (event) => {
         event.preventDefault();
         if (window.confirm('¿Estás seguro de que quieres eliminar los clientes seleccionados?')) {
-            const updatedClients = clients.filter(client => !selectedClients.includes(client.uniqueCode));
-            setClients(updatedClients);
-            localStorage.setItem('clients', JSON.stringify(updatedClients));
+            try {
+                for (const clientId of selectedClients) {
+                    const response = await fetch(`/api/clientes/${clientId}`, { method: 'DELETE' });
+                    if (!response.ok) {
+                        console.error('Error al eliminar el cliente:', response.statusText);
+                        // Puedes mostrar un mensaje de error al usuario aquí
+                    }
+                }
+
+                // Actualiza la lista de clientes después de eliminar los seleccionados
+                const updatedClients = clients.filter(client => !selectedClients.includes(client.uniqueCode));
+                setClients(updatedClients);
+            } catch (error) {
+                console.error('Error de red al eliminar los clientes:', error);
+                // Puedes mostrar un mensaje de error al usuario aquí
+            }
         }
     };
-
     return (
         <div className={styles.container}>
             <h3 className={styles.title}>Clientes</h3>

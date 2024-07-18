@@ -21,28 +21,51 @@ function EmailForm({ onClientAdded, emailTemplate }) {
         return code;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Datos del cliente (creado dentro de handleSubmit)
+        const code = generateUniqueCode(); // Generamos el código único aquí
+        setUniqueCode(code);
+
         const clientData = {
             email,
             driveLink,
-            uniqueCode,
+            uniqueCode: code,
             date: new Date().toLocaleDateString('es-CR'),
         };
 
-        // Enviar datos del cliente a la base de datos (localStorage)
-        onClientAdded(clientData);
+        try {
+            const response = await fetch('/server/Clientes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(clientData),
+            });
 
-        // Enviar plantilla de correo con el código único a la consola
-        const emailToSend = emailTemplate.replace('[xxxxxxxx]', uniqueCode);
-        console.log("Correo a enviar:", emailToSend);
+            if (response.ok) {
+                const newClient = await response.json();
+                onClientAdded(newClient); // Notificar al padre (AdminPanel) para actualizar la lista
 
-        setEmail('');
-        setDriveLink('');
-        setUniqueCode('');
+                // Enviar plantilla de correo con el código único
+                const emailToSend = emailTemplate.replace('[xxxxxxxx]', code);
+                console.log("Correo a enviar:", emailToSend);
+                // Aquí deberías implementar la lógica real para enviar el correo
+
+                // Limpiar campos del formulario (solo si el envío fue exitoso)
+                setEmail('');
+                setDriveLink('');
+                setUniqueCode('');
+            } else {
+                console.error('Error al crear el cliente en el backend:', response.statusText);
+                // Manejo de errores (mostrar mensaje al usuario)
+            }
+        } catch (error) {
+            console.error('Error de red al crear el cliente:', error);
+            // Manejo de errores (mostrar mensaje al usuario)
+        }
     };
+
 
     const handleCopyCode = () => {
         navigator.clipboard.writeText(uniqueCode);
