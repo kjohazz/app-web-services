@@ -6,13 +6,23 @@
   }
   
   .content {
-    display: flex;
-    justify-content: space-between; /* Distribuir elementos uniformemente */
-    align-items: center;
-    max-width: 1200px; /* Ancho máximo del contenedor */
-    margin: 0 auto; /* Centrar el contenido */
+   display: flex;
+   flex-direction: column;
+   gap: 1.5rem;
+  
   }
   
+  @media (min-width: 768px) {
+    .content {
+      flex-direction: row;
+      justify-content: space-between; /* Distribuir elementos uniformemente */
+      align-items: center;
+      max-width: 1200px; /* Ancho máximo del contenedor */
+      margin: 0 auto; /* Centrar el contenido */
+    }
+        }
+
+
   .award {
    display: flex;
    flex-direction: column;
@@ -60,4 +70,16 @@
   .socialIcons svg {
     width: 24px;
     height: 24px;
+  }
+
+  .botonG {
+    padding: 0.5rem;
+    background-color: #ea9d46;
+    color: white;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 1rem;
   }
