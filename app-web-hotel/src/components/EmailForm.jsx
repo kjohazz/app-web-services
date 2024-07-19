@@ -21,10 +21,9 @@ function EmailForm({ onClientAdded, emailTemplate }) {
         return code;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Datos del cliente (creado dentro de handleSubmit)
         const clientData = {
             email,
             driveLink,
@@ -32,12 +31,35 @@ function EmailForm({ onClientAdded, emailTemplate }) {
             date: new Date().toLocaleDateString('es-CR'),
         };
 
-        // Enviar datos del cliente a la base de datos (localStorage)
         onClientAdded(clientData);
 
-        // Enviar plantilla de correo con el código único a la consola
-        const emailToSend = emailTemplate.replace('[xxxxxxxx]', uniqueCode);
-        console.log("Correo a enviar:", emailToSend);
+        // Enviar datos del correo al backend
+        try {
+            const response = await fetch('http://localhost:5000/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    to: email,
+                    subject: 'Tus fotos de Hacienda Guachipelín',
+                    body: emailTemplate.replace('[xxxxxxxx]', uniqueCode),
+                }),
+            });
+
+            console.log(response)
+
+            if (response.ok) {
+                console.log('Correo enviado correctamente');
+                // Aquí puedes agregar código para mostrar un mensaje de éxito al usuario
+            } else {
+                console.error('Error al enviar el correo:', response.statusText);
+                // Aquí puedes agregar código para mostrar un mensaje de error al usuario
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+            // Aquí puedes agregar código para mostrar un mensaje de error al usuario
+        }
 
         setEmail('');
         setDriveLink('');
