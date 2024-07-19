@@ -24,48 +24,47 @@ function EmailForm({ onClientAdded, emailTemplate }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const code = generateUniqueCode(); // Generamos el código único aquí
-        setUniqueCode(code);
-
         const clientData = {
             email,
             driveLink,
-            uniqueCode: code,
+            uniqueCode,
             date: new Date().toLocaleDateString('es-CR'),
         };
 
+        onClientAdded(clientData);
+
+        // Enviar datos del correo al backend
         try {
-            const response = await fetch('/server/Clientes', {
+            const response = await fetch('http://localhost:5000/send-email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(clientData),
+                body: JSON.stringify({
+                    to: email,
+                    subject: 'Tus fotos de Hacienda Guachipelín',
+                    body: emailTemplate.replace('[xxxxxxxx]', uniqueCode),
+                }),
             });
 
+            console.log(response)
+
             if (response.ok) {
-                const newClient = await response.json();
-                onClientAdded(newClient); // Notificar al padre (AdminPanel) para actualizar la lista
-
-                // Enviar plantilla de correo con el código único
-                const emailToSend = emailTemplate.replace('[xxxxxxxx]', code);
-                console.log("Correo a enviar:", emailToSend);
-                // Aquí deberías implementar la lógica real para enviar el correo
-
-                // Limpiar campos del formulario (solo si el envío fue exitoso)
-                setEmail('');
-                setDriveLink('');
-                setUniqueCode('');
+                console.log('Correo enviado correctamente');
+                // Aquí puedes agregar código para mostrar un mensaje de éxito al usuario
             } else {
-                console.error('Error al crear el cliente en el backend:', response.statusText);
-                // Manejo de errores (mostrar mensaje al usuario)
+                console.error('Error al enviar el correo:', response.statusText);
+                // Aquí puedes agregar código para mostrar un mensaje de error al usuario
             }
         } catch (error) {
-            console.error('Error de red al crear el cliente:', error);
-            // Manejo de errores (mostrar mensaje al usuario)
+            console.error('Error de red:', error);
+            // Aquí puedes agregar código para mostrar un mensaje de error al usuario
         }
-    };
 
+        setEmail('');
+        setDriveLink('');
+        setUniqueCode('');
+    };
 
     const handleCopyCode = () => {
         navigator.clipboard.writeText(uniqueCode);
