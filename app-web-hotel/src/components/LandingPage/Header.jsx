@@ -45,10 +45,10 @@ function Header() {
 
       <header className={styles.header}>
         <div>
-          <img className={styles.logo} src="/hotel-hacienda-guachipelin-logo.png" alt="Logo" />
+          <a href="https://www.guachipelin.com/"> <img className={styles.logo} src="/hotel-hacienda-guachipelin-logo.png" alt="Logo" /></a>
         </div>
         <nav className={styles.menu}>
-          <a href="https://www.guachipelin.com/">Inicio</a>
+          <a href="https://www.guachipelin.com/">Home</a>
         </nav>
 
         {/* Modal del video */}

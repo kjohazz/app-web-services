@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    por favor dame la logica para enviar el correo electronico
+
+
+    Mostrar versiones
+
+
+    ¡Claro! Para enviar el correo electrónico con la plantilla y el código único generado, puedes utilizar una
+    biblioteca como EmailJS o un servicio de correo electrónico como SendGrid. Aquí te presento la lógica utilizando
+    EmailJS, que es una opción sencilla para integrar el envío de correos en aplicaciones web:
+
+    1. Registrarte en EmailJS:
+
+    Crea una cuenta gratuita en EmailJS: https://www.emailjs.com/
+    Crea un nuevo servicio de correo electrónico y conecta tu cuenta de correo electrónico (Gmail, Outlook, etc.).
+    Obtén tus credenciales de EmailJS (Service ID, Template ID y User ID).
+    2. Instalar EmailJS:
+
+    Bash
+    npm install emailjs-com
+    Usa el código con precaución.
+
+    3. Modificar EmailForm.jsx:
+
+    JavaScript
+    import React, { useState, useEffect } from 'react';
+    import emailjs from 'emailjs-com';
+    import styles from './EmailForm.module.css';
+
+    function EmailForm({ onClientAdded, emailTemplate }) {
+    // ... (otros estados y funciones)
+
+    const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const code = generateUniqueCode();
+    setUniqueCode(code);
+
+    const clientData = {
+    email,
+    driveLink,
+    uniqueCode: code,
+    date: new Date().toLocaleDateString('es-CR'),
+    };
+
+    // Enviar datos del cliente al backend
+    try {
+    const response = await fetch('/api/clientes', {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(clientData),
+    });
+
+    if (response.ok) {
+    const newClient = await response.json();
+    onClientAdded(newClient);
+
+    // Enviar correo electrónico con EmailJS
+    const templateParams = {
+    to_email: email,
+    drive_link: driveLink,
+    unique_code: code,
+    };
+
+    emailjs.send(
+    'YOUR_SERVICE_ID', // Reemplaza con tu Service ID de EmailJS
+    'YOUR_TEMPLATE_ID', // Reemplaza con tu Template ID de EmailJS
+    templateParams,
+    'YOUR_USER_ID' // Reemplaza con tu User ID de EmailJS
+    )
+    .then((result) => {
+    console.log('Correo enviado correctamente:', result.text);
+    }, (error) => {
+    console.error('Error al enviar el correo:', error.text);
+    });
+
+    // Limpiar campos del formulario
+    setEmail('');
+    setDriveLink('');
+    setUniqueCode('');
+    } else {
+    console.error('Error al crear el cliente en el backend:', response.statusText);
+    // Manejo de errores (mostrar mensaje al usuario)
+    }
+    } catch (error) {
+    console.error('Error de red al crear el cliente:', error);
+    // Manejo de errores (mostrar mensaje al usuario)
+    }
+    };
+
+    // ... (resto del código del componente)
+    }
+
+    export default EmailForm;
+    Usa el código con precaución.
+
+    Explicación de los cambios:
+
+    Importar emailjs: Se importa la biblioteca emailjs-com.
+    templateParams: Se crea un objeto con los parámetros que se enviarán a la plantilla de correo electrónico en
+    EmailJS.
+    emailjs.send(...): Se utiliza la función send de EmailJS para enviar el correo electrónico:
+    Reemplaza 'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID' y 'YOUR_USER_ID' con tus propias credenciales de EmailJS.
+    Se pasan los templateParams para que se reemplacen en la plantilla de correo.
+    Se manejan las promesas resultantes para mostrar mensajes de éxito o error en la consola.
+    Con esta implementación, al enviar el formulario, se enviará un correo electrónico al cliente utilizando la
+    plantilla que hayas configurado en EmailJS.
+</body>
+
+</html>
