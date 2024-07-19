@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Footer.module.css';
 
 function Footer() {
+    console.log('Footer solo quiero actualizar git')
     return (
         <footer className={styles.footer}>
             <div className={styles.content}>
