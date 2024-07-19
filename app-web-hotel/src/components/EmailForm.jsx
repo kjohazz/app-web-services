@@ -47,6 +47,30 @@ function EmailForm({ onClientAdded, emailTemplate }) {
                 }),
             });
 
+            try {
+                console.log(clientData)
+                // Enviar datos del cliente al backend para guardar en MongoDB
+                const response = await fetch('http://localhost:5000/clients', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(clientData),
+                });
+
+                if (response.ok) {
+                    console.log('Cliente guardado correctamente');
+                    // Aquí puedes agregar código para mostrar un mensaje de éxito al usuario
+                } else {
+                    console.error('Error al guardar el cliente:', response.statusText);
+                    // Aquí puedes agregar código para mostrar un mensaje de error al usuario
+                }
+
+                // ... (resto de la lógica para enviar el correo electrónico)
+            } catch (error) {
+                console.error('Error de red:', error);
+                // Aquí puedes agregar código para mostrar un mensaje de error al usuario
+            }
             console.log(response)
 
             if (response.ok) {

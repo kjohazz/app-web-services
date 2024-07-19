@@ -2,7 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors'); // Importar el middleware CORS
+const mongoose = require('mongoose');
+const Client = require('./Client');
 require('dotenv').config();
+
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://HaciendaG258:qyXAHvvQCrYFzcrE@cluster01.3gpscyc.mongodb.net/?retryWrites=true&w=majority';
+
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Conexión exitosa a MongoDB Atlas'))
+    .catch(err => console.error('Error de conexión a MongoDB:', err));
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -60,4 +68,26 @@ app.options('/send-email', cors()); // Habilita CORS para solicitudes OPTIONS a 
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor escuchando en el puerto ${port}`);
+});
+
+app.get('/clients', async (req, res) => {
+    try {
+        const clients = await Client.find(); // Obtener todos los clientes de MongoDB
+        res.json(clients); // Enviar los clientes como respuesta JSON
+    } catch (error) {
+        console.error('Error al obtener clientes de MongoDB:', error);
+        res.status(500).json({ error: 'Error al obtener clientes' });
+    }
+});
+
+
+app.post('/clients', async (req, res) => {
+    try {
+        const newClient = new Client(req.body);
+        await newClient.save();
+        res.status(201).json(newClient);
+    } catch (error) {
+        console.error('Error al guardar el cliente:', error);
+        res.status(500).json({ error: 'Error al guardar el cliente' });
+    }
 });
