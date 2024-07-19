@@ -3,23 +3,32 @@ import styles from './LoginForm.module.css';
 import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [usuario, setUsuario] = useState('');
+    const [contrasena, setContrasena] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Credenciales fijas
-        const validEmail = 'admin@example.com';
-        const validPassword = 'password123';
+        try {
+            const response = await fetch('/api/login', { // Asegúrate de que la ruta sea correcta
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ usuario, contrasena }),
+            });
 
-        if (email === validEmail && password === validPassword) {
-            // Redireccionar al panel de administración
-            navigate('/admin');
-        } else {
-            // Manejo de error (puedes mostrar un mensaje de error al usuario)
-            console.error('Credenciales incorrectas');
+            if (response.ok) {
+                // Autenticación exitosa
+                navigate('/admin');
+            } else {
+                const errorData = await response.json();
+                alert(errorData.error);
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+            alert('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
         }
     };
 
@@ -36,8 +45,8 @@ function LoginForm() {
                         id="email"
                         className={styles.input}
                         placeholder="correo@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={usuario}
+                        onChange={(e) => setUsuario(e.target.value)}
                     />
                 </div>
 
@@ -48,8 +57,8 @@ function LoginForm() {
                         id="password"
                         className={styles.input}
                         placeholder="********"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={contrasena}
+                        onChange={(e) => setContrasena(e.target.value)}
                     />
                 </div>
 

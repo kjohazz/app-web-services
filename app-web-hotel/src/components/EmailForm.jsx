@@ -1,81 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import styles from './EmailForm.module.css';
 
+
 function EmailForm({ onClientAdded, emailTemplate }) {
     const [email, setEmail] = useState('');
     const [driveLink, setDriveLink] = useState('');
     const [uniqueCode, setUniqueCode] = useState('');
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // Generar código único al cambiar el correo electrónico
     useEffect(() => {
         if (email) {
-            const code = generateUniqueCode();
-            setUniqueCode(code);
+            setUniqueCode(generateUniqueCode());
         } else {
             setUniqueCode('');
         }
     }, [email]);
 
     const generateUniqueCode = () => {
-        const code = Math.random().toString(36).substring(2, 15);
-        return code;
+        return Math.random().toString(36).substring(2, 15);
     };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setError(null);
+        setIsLoading(true); // Mostrar indicador de carga
 
-        const code = generateUniqueCode(); // Generamos el código único aquí
-        setUniqueCode(code);
+        // Validación básica del correo electrónico (puedes mejorar esta validación)
+        if (!validateEmail(email)) {
+            setError('Por favor, ingresa un correo electrónico válido.');
+            setIsLoading(false);
+            return;
+        }
 
         const clientData = {
             email,
             driveLink,
-            uniqueCode: code,
+            uniqueCode,
             date: new Date().toLocaleDateString('es-CR'),
+            emailTemplate,
         };
-
+        console.log(clientData)
         try {
-            const response = await fetch('/server/Clientes', {
+            console.log('Llegamos aqui')
+            const response = await fetch('/api/enviar-correo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(clientData),
-            });
+            }); console.log(response.body)
 
             if (response.ok) {
                 const newClient = await response.json();
-                onClientAdded(newClient); // Notificar al padre (AdminPanel) para actualizar la lista
+                onClientAdded(newClient);
+                console.log("todo salio bien")
 
-                // Enviar plantilla de correo con el código único
-                const emailToSend = emailTemplate.replace('[xxxxxxxx]', code);
-                console.log("Correo a enviar:", emailToSend);
-                // Aquí deberías implementar la lógica real para enviar el correo
-
-                // Limpiar campos del formulario (solo si el envío fue exitoso)
+                // Limpiar campos del formulario
                 setEmail('');
                 setDriveLink('');
                 setUniqueCode('');
+                alert('Correo enviado correctamente');
             } else {
-                console.error('Error al crear el cliente en el backend:', response.statusText);
-                // Manejo de errores (mostrar mensaje al usuario)
+                try {
+                    const errorData = await response.json();
+                    setError(errorData.error || 'Error desconocido en el servidor');
+                    console.log('Llegamos ya tenemos un error que no conozco')
+                } catch (error) {
+                    console.error('Error al analizar la respuesta de error:', error);
+                    setError('Error desconocido en el servidor');
+                }
             }
         } catch (error) {
             console.error('Error de red al crear el cliente:', error);
-            // Manejo de errores (mostrar mensaje al usuario)
+            setError('Error de red. Por favor, verifica tu conexión a internet.');
+        } finally {
+            setIsLoading(false); // Ocultar indicador de carga
         }
     };
-
 
     const handleCopyCode = () => {
         navigator.clipboard.writeText(uniqueCode);
         alert('Código único copiado al portapapeles');
     };
 
+
     return (
         <div className={styles.formContainer}>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <h3 className={styles.title}>Ingresar Cliente</h3>
+
+                {error && <div className={styles.error}>{error}</div>} {/* Mostrar mensaje de error */}
+
+                {/* ... (campos de correo, enlace de Drive y código único) ... */}
 
                 <div className={styles.inputGroup}>
                     <label htmlFor="email" className={styles.label}>
@@ -137,6 +155,11 @@ function EmailForm({ onClientAdded, emailTemplate }) {
             </form>
         </div>
     );
+}
+
+function validateEmail(email) {
+    // Puedes usar una expresión regular más robusta para validar el correo
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 export default EmailForm;
