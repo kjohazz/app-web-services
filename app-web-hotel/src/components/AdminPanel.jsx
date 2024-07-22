@@ -10,80 +10,164 @@ function AdminPanel() {
     const [clients, setClients] = useState([]);
     const [editingClient, setEditingClient] = useState(null);
     const [emailTemplate, setEmailTemplate] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        // Cargar clientes desde localStorage
-        const storedClients = JSON.parse(localStorage.getItem('clients')) || [];
-        setClients(storedClients);
-
-        // Cargar plantilla de correo desde localStorage
-        const storedTemplate = localStorage.getItem('emailTemplate');
-        if (storedTemplate) {
-            setEmailTemplate(storedTemplate);
-        } else {
-            setEmailTemplate(
-                "Estimado/a cliente,\n\n" +
-                "Gracias por elegir nuestros servicios fotográficos durante su aventura en el Hotel Guachipelín. ¡Esperamos que haya disfrutado de su estadía!\n\n" +
-                "Nos complace compartirle el enlace para acceder a sus fotografías: landingPage.com\n" +
-                "Para acceder a la descarga, por favor ingrese el siguiente código único en el campo correspondiente: [xxxxxxxx]\n\n" +
-                "Agradecemos su preferencia y esperamos tener el placer de recibirle nuevamente en el futuro.\n\n" +
-                "Atentamente,\n" +
-                "El equipo del Hotel Guachipelín"
-            );
-        }
-
-        const handleStorageChange = () => {
-            const updatedClients = JSON.parse(localStorage.getItem('clients')) || [];
-            setClients(updatedClients);
+        // Cargar clientes desde el backend
+        const fetchClients = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/clients');
+                if (response.ok) {
+                    const data = await response.json();
+                    setClients(data);
+                } else {
+                    console.error('Error al obtener los clientes del backend:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error de red al obtener los clientes:', error);
+            }
         };
-        window.addEventListener('storage', handleStorageChange);
 
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
+        // Cargar plantilla de correo desde el backend
+        const fetchEmailTemplate = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/email-template');
+                if (response.ok) {
+                    const template = await response.json();
+                    setEmailTemplate(template.content);
+                } else {
+                    // Si no hay plantilla, crear una predeterminada y guardarla en MongoDB
+                    const defaultTemplate = {
+                        content: "Estimado/a cliente,\n\nGracias por elegir..."
+                    };
+                    const res = await fetch('http://localhost:5000/email-template', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(defaultTemplate),
+                    });
+                    if (res.ok) {
+                        const template = await res.json();
+                        setEmailTemplate(template.content);
+                    }
+                }
+            } catch (error) {
+                console.error('Error al obtener la plantilla de correo:', error);
+            }
         };
+
+
+        fetchClients();
+        fetchEmailTemplate();
     }, []);
 
-    const handleAddClient = (newClient) => {
-        setClients(prevClients => {
-            const updatedClients = [...prevClients, newClient];
-            localStorage.setItem('clients', JSON.stringify(updatedClients));
-            return updatedClients;
-        });
+    const handleAddClient = async (newClient) => {
+        try {
+            const response = await fetch('http://localhost:5000/add-client', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newClient),
+            });
+
+            if (response.ok) {
+                // Obtener la lista actualizada de clientes desde el backend
+                const updatedClientsResponse = await fetch('http://localhost:5000/clients');
+                if (updatedClientsResponse.ok) {
+                    const updatedClients = await updatedClientsResponse.json();
+                    setClients(updatedClients);
+                } else {
+                    console.error('Error al obtener clientes actualizados:', updatedClientsResponse.statusText);
+                }
+            } else {
+                console.error('Error al agregar el cliente:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+    };
+
+    const handleUpdateClient = async (updatedClient) => {
+        try {
+            const response = await fetch(`http://localhost:5000/clients/${updatedClient._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedClient),
+            });
+
+            if (response.ok) {
+                // Obtener la lista actualizada de clientes desde el backend
+                const updatedClientsResponse = await fetch('http://localhost:5000/clients');
+                if (updatedClientsResponse.ok) {
+                    const updatedClients = await updatedClientsResponse.json();
+                    setClients(updatedClients);
+                } else {
+                    console.error('Error al obtener clientes actualizados:', updatedClientsResponse.statusText);
+                }
+            } else {
+                console.error('Error al actualizar el cliente:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+        setEditingClient(null); // Cierra el modal después de actualizar
+    };
+
+    const handleDeleteClient = async (clientId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/clients/${clientId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                // Obtener la lista actualizada de clientes desde el backend
+                const updatedClientsResponse = await fetch('http://localhost:5000/clients');
+                if (updatedClientsResponse.ok) {
+                    const updatedClients = await updatedClientsResponse.json();
+                    setClients(updatedClients);
+                } else {
+                    console.error('Error al obtener clientes actualizados:', updatedClientsResponse.statusText);
+                }
+            } else {
+                console.error('Error al eliminar el cliente:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
     };
 
     const handleEditClient = (client) => {
         setEditingClient(client);
     };
 
-    const handleUpdateClient = (updatedClient) => {
-        setClients(prevClients => {
-            const updatedClients = prevClients.map(client =>
-                client.uniqueCode === updatedClient.uniqueCode ? updatedClient : client
-            );
-            localStorage.setItem('clients', JSON.stringify(updatedClients));
-            return updatedClients;
-        });
-        setEditingClient(null);
-    };
-
-    const handleDeleteClient = (clientId) => {
-        setClients(prevClients => {
-            const updatedClients = prevClients.filter(client => client.uniqueCode !== clientId);
-            localStorage.setItem('clients', JSON.stringify(updatedClients));
-            return updatedClients;
-        });
-    };
-
     const handleCloseModal = () => {
         setEditingClient(null);
     };
 
+    const handleSaveTemplate = async (newTemplate) => {
+        try {
+            const response = await fetch('http://localhost:5000/email-template', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: newTemplate }),
+            });
 
-    const handleSaveTemplate = (newTemplate) => {
-        setEmailTemplate(newTemplate);
-        localStorage.setItem('emailTemplate', newTemplate);
+            if (response.ok) {
+                const updatedTemplate = await response.json();
+                setEmailTemplate(updatedTemplate.content); // Actualizar el estado local
+            } else {
+                console.error('Error al guardar la plantilla:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
     };
-    const [showModal, setShowModal] = useState(false);
 
     return (
         <div>
@@ -96,6 +180,7 @@ function AdminPanel() {
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 onSaveTemplate={handleSaveTemplate}
+                emailTemplate={emailTemplate} // Pasar la plantilla como prop
             />
             <div className={styles.container}>
                 <div className={`${styles.column} ${styles.columnForm}`}>
@@ -106,7 +191,7 @@ function AdminPanel() {
                         clients={clients}
                         onEditClient={handleEditClient}
                         onDeleteClient={handleDeleteClient}
-                        setClients={setClients}
+                        setClients={setClients} // Pasa la función setClients
                     />
                 </div>
             </div>
