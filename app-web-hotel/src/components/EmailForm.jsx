@@ -31,58 +31,50 @@ function EmailForm({ onClientAdded, emailTemplate }) {
             date: new Date().toLocaleDateString('es-CR'),
         };
 
-        onClientAdded(clientData);
-
-        // Enviar datos del correo al backend
         try {
-            const response = await fetch('http://localhost:5000/send-email', {
+            // 1. Enviar datos del cliente al backend para guardar en MongoDB
+            const addClientResponse = await fetch('http://localhost:5000/add-client', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    to: email,
-                    subject: 'Tus fotos de Hacienda Guachipelín',
-                    body: emailTemplate.replace('[xxxxxxxx]', uniqueCode),
-                }),
+                body: JSON.stringify(clientData),
             });
 
-            try {
-                console.log(clientData)
-                // Enviar datos del cliente al backend para guardar en MongoDB
-                const response = await fetch('http://localhost:5000/clients', {
+            if (addClientResponse.ok) {
+                console.log('Cliente guardado correctamente');
+                const newClient = await addClientResponse.json();
+                onClientAdded(newClient);
+
+                // 2. Enviar correo electrónico después de guardar el cliente
+                const sendEmailResponse = await fetch('http://localhost:5000/send-email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(clientData),
+                    body: JSON.stringify({
+                        to: email,
+                        subject: 'Tus fotos de Hacienda Guachipelín',
+                        body: emailTemplate.replace('[xxxxxxxx]', uniqueCode),
+                    }),
                 });
 
-                if (response.ok) {
-                    console.log('Cliente guardado correctamente');
-                    // Aquí puedes agregar código para mostrar un mensaje de éxito al usuario
+                console.log(emailTemplate)
+
+                if (sendEmailResponse.ok) {
+                    console.log('Correo enviado correctamente');
+                    // Puedes mostrar un mensaje de éxito al usuario aquí
                 } else {
-                    console.error('Error al guardar el cliente:', response.statusText);
-                    // Aquí puedes agregar código para mostrar un mensaje de error al usuario
+                    console.error('Error al enviar el correo:', sendEmailResponse.statusText);
+                    // Puedes mostrar un mensaje de error al usuario aquí
                 }
-
-                // ... (resto de la lógica para enviar el correo electrónico)
-            } catch (error) {
-                console.error('Error de red:', error);
-                // Aquí puedes agregar código para mostrar un mensaje de error al usuario
-            }
-            console.log(response)
-
-            if (response.ok) {
-                console.log('Correo enviado correctamente');
-                // Aquí puedes agregar código para mostrar un mensaje de éxito al usuario
             } else {
-                console.error('Error al enviar el correo:', response.statusText);
-                // Aquí puedes agregar código para mostrar un mensaje de error al usuario
+                console.error('Error al guardar el cliente:', addClientResponse.statusText);
+                // Puedes mostrar un mensaje de error al usuario aquí
             }
         } catch (error) {
             console.error('Error de red:', error);
-            // Aquí puedes agregar código para mostrar un mensaje de error al usuario
+            // Puedes mostrar un mensaje de error al usuario aquí
         }
 
         setEmail('');

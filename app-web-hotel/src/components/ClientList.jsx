@@ -9,18 +9,17 @@ function ClientList({ onEditClient }) {
     const itemsPerPage = 8;
 
     useEffect(() => {
-        // Obtener clientes desde el backend al montar el componente
         const fetchClients = async () => {
             try {
-                const response = await fetch('/api/clientes');
+                const response = await fetch('http://localhost:5000/clients');
                 if (response.ok) {
                     const data = await response.json();
                     setClients(data);
                 } else {
-                    console.error('Error al obtener los clientes del backend:', response.statusText);
+                    console.error('Error al obtener los clientes:', response.statusText);
                 }
             } catch (error) {
-                console.error('Error de red al obtener los clientes:', error);
+                console.error('Error de red:', error);
             }
         };
 
@@ -52,24 +51,27 @@ function ClientList({ onEditClient }) {
         onEditClient(client);
     };
 
-    const handleDeleteClick = async (clientId) => {
+    const handleDeleteClick = async (clientId) => { // Recibe el _id del cliente
         if (window.confirm('¿Estás seguro de que quieres eliminar este cliente?')) {
             try {
-                const response = await fetch(`/api/clientes/${clientId}`, { method: 'DELETE' });
+                const response = await fetch(`http://localhost:5000/clients/${clientId}`, {
+                    method: 'DELETE',
+                });
+
                 if (response.ok) {
-                    setClients(clients.filter((client) => client.uniqueCode !== clientId));
+                    setClients(clients.filter((client) => client._id !== clientId));
                 } else {
                     console.error('Error al eliminar el cliente:', response.statusText);
                 }
             } catch (error) {
-                console.error('Error de red al eliminar el cliente:', error);
+                console.error('Error de red:', error);
             }
         }
     };
 
     const handleDownloadTxt = (event) => {
         event.preventDefault();
-        const selectedClientData = clients.filter(client => selectedClients.includes(client.uniqueCode));
+        const selectedClientData = clients.filter(client => selectedClients.includes(client._id)); // Filtra por _id
 
         if (selectedClientData.length === 0) {
             alert('No hay clientes seleccionados para descargar.');
@@ -90,19 +92,17 @@ function ClientList({ onEditClient }) {
         if (window.confirm('¿Estás seguro de que quieres eliminar los clientes seleccionados?')) {
             try {
                 for (const clientId of selectedClients) {
-                    const response = await fetch(`/api/clientes/${clientId}`, { method: 'DELETE' });
+                    const response = await fetch(`http://localhost:5000/clients/${clientId}`, { method: 'DELETE' });
                     if (!response.ok) {
                         console.error('Error al eliminar el cliente:', response.statusText);
-                        // Puedes mostrar un mensaje de error al usuario aquí
                     }
                 }
 
                 // Actualiza la lista de clientes después de eliminar los seleccionados
-                const updatedClients = clients.filter(client => !selectedClients.includes(client.uniqueCode));
+                const updatedClients = clients.filter(client => !selectedClients.includes(client._id)); // Filtra por _id
                 setClients(updatedClients);
             } catch (error) {
                 console.error('Error de red al eliminar los clientes:', error);
-                // Puedes mostrar un mensaje de error al usuario aquí
             }
         }
     };
@@ -112,11 +112,11 @@ function ClientList({ onEditClient }) {
 
             <ul className={styles.list}>
                 {currentClients.map((client) => (
-                    <li key={client.uniqueCode} className={styles.listItem}>
+                    <li key={client._id} className={styles.listItem}>
                         <input
                             type="checkbox"
-                            checked={selectedClients.includes(client.uniqueCode)}
-                            onChange={() => handleCheckboxChange(client.uniqueCode)}
+                            checked={selectedClients.includes(client._id)}
+                            onChange={() => handleCheckboxChange(client._id)}
                         />
                         <span className={styles.email}>{client.email}</span>
                         <span className={styles.code}>{client.uniqueCode}</span>
@@ -127,7 +127,7 @@ function ClientList({ onEditClient }) {
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                             </svg>
                         </button>
-                        <button onClick={() => handleDeleteClick(client.uniqueCode)} className={styles.deleteButton}>
+                        <button onClick={() => handleDeleteClick(client._id)} className={styles.deleteButton}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#800000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-trash-2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
