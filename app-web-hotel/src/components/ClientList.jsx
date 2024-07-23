@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './ClientList.module.css';
 import ReactPaginate from 'react-paginate';
 
-function ClientList({ onEditClient }) {
-    const [clients, setClients] = useState([]);
+function ClientList({ clients, onEditClient, onDeleteClient, setClients }) {
     const [currentPage, setCurrentPage] = useState(0);
     const [selectedClients, setSelectedClients] = useState([]);
     const itemsPerPage = 8;
@@ -24,7 +23,7 @@ function ClientList({ onEditClient }) {
         };
 
         fetchClients();
-    }, []);
+    }, [setClients, clients]);
 
     useEffect(() => {
         setSelectedClients([]);

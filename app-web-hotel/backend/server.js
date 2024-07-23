@@ -4,9 +4,11 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Client = require('./Client');
+const loginRoutes = require('./Login');
 const EmailTemplate = require('./EmailTemplate');
 require('dotenv').config();
-
+const bcrypt = require('bcrypt');
+const User = require('./User');
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://HaciendaG258:qyXAHvvQCrYFzcrE@cluster01.3gpscyc.mongodb.net/?retryWrites=true&w=majority';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -39,6 +41,8 @@ const transporter = nodemailer.createTransport({
         rejectUnauthorized: false
     }
 });
+
+
 
 // Endpoint para enviar correos electrónicos
 app.post('/send-email', (req, res) => {
@@ -157,5 +161,37 @@ app.put('/email-template', async (req, res) => {
     } catch (error) {
         console.error('Error al actualizar la plantilla de correo:', error);
         res.status(500).json({ error: 'Error al actualizar la plantilla de correo' });
+    }
+});
+
+
+//Endpoint para el formulario de codigo unico
+app.get('/clients/code/:uniqueCode', async (req, res) => {
+    try {
+        const uniqueCode = req.params.uniqueCode;
+        const client = await Client.findOne({ uniqueCode });
+        if (!client) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+        res.json(client);
+    } catch (error) {
+        console.error('Error al buscar el cliente:', error);
+        res.status(500).json({ error: 'Error al buscar el cliente' });
+    }
+});
+
+app.use('/auth', loginRoutes)
+
+app.post('/auth/register', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ email, password: hashedPassword });
+        await newUser.save();
+        res.status(201).json({ message: 'Usuario registrado exitosamente' });
+    } catch (error) {
+        console.error('Error al registrar el usuario:', error);
+        res.status(500).json({ error: 'Error en el servidor' });
     }
 });
