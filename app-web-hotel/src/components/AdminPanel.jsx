@@ -191,7 +191,7 @@ function AdminPanel() {
                         clients={clients}
                         onEditClient={handleEditClient}
                         onDeleteClient={handleDeleteClient}
-                        setClients={setClients} // Pasa la función setClients
+                        setClients={setClients}
                     />
                 </div>
             </div>

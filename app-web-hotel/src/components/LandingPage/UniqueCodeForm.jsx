@@ -3,29 +3,38 @@ import styles from './UniqueCodeForm.module.css';
 
 function UniqueCodeForm() {
   const [uniqueCode, setUniqueCode] = useState('');
-  const [clients, setClients] = useState([]);
+  const [client, setClient] = useState(null); // Almacena el cliente encontrado
 
   useEffect(() => {
-    const storedClients = JSON.parse(localStorage.getItem('clients')) || [];
-    setClients(storedClients);
+    // No necesitamos cargar clientes desde localStorage aquí
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const client = clients.find(c => c.uniqueCode === uniqueCode);
-
-    if (client) {
-      // Abrir el enlace de Drive en una nueva pestaña
-      window.open(client.driveLink, '_blank');
-    } else {
-      alert('Código único inválido. Por favor, inténtalo de nuevo.');
+    try {
+      // Consulta a la base de datos para buscar el cliente por código único
+      const response = await fetch(`http://localhost:5000/clients/code/${uniqueCode}`); // Endpoint para buscar por uniqueCode
+      if (response.ok) {
+        const clientData = await response.json();
+        setClient(clientData); // Almacena el cliente encontrado
+        // Abre el enlace de Drive en una nueva pestaña
+        window.open(clientData.driveLink, '_blank');
+      } else {
+        setClient(null); // Si no se encuentra, limpia el cliente
+        alert('Código único inválido. Por favor, inténtalo de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+      setClient(null); // En caso de error, limpia el cliente
+      alert('Error al buscar el código único.');
     }
   };
 
   return (
     <div className={styles.formContainer}>
-      <h2 className={styles.title}>Memories of your</h2> <h2> unforgettable trip</h2>
+      <h2 className={styles.title}>Memories of your</h2>
+      <h2>unforgettable trip</h2>
 
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit} className={styles.form}>

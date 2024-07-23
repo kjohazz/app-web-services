@@ -15,10 +15,7 @@ function Header({ showModal, setShowModal, onSaveTemplate }) {
     };
 
     const handleLogout = () => {
-        // Lógica para cerrar sesión (sin borrar localStorage)
-        // ... (otras acciones de cierre de sesión, como limpiar el estado global, etc.)
-
-        // Redirigir al login
+        sessionStorage.removeItem('isLoggedIn'); // Limpiar el estado de sesión
         navigate('/');
     };
 
