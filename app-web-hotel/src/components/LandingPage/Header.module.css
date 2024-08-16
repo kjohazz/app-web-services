@@ -92,6 +92,7 @@
   background-color: #ea9d46;
   text-align: center;
   color: white;
+  cursor: pointer;
 }
 
 .promoHeader p {
