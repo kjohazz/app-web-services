@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const User = require('./User');
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://HaciendaG258:qyXAHvvQCrYFzcrE@cluster01.3gpscyc.mongodb.net/?retryWrites=true&w=majority';
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoURI, { useUnifiedTopology: true })
     .then(() => console.log('Conexión exitosa a MongoDB Atlas'))
     .catch(err => console.error('Error de conexión a MongoDB:', err));
 
@@ -32,16 +32,27 @@ app.use(cors({
 const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
-    secure: false,
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
     },
     tls: {
+        minVersion: 'TLSv1.2',
         rejectUnauthorized: false
-    }
+        // Omitir verificación del certificado (solo para pruebas)
+    },
+    debug: true // Habilitar modo de depuración
 });
 
+console.log('Configuración de Nodemailer:', transporter.options);
+transporter.verify(function (error, success) {
+    if (error) {
+        console.error('Error al conectar al servidor SMTP:', error);
+    } else {
+        console.log('Conexión al servidor SMTP establecida correctamente');
+    }
+});
 
 
 // Endpoint para enviar correos electrónicos

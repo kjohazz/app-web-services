@@ -57,13 +57,9 @@ function Header() {
         )}
       </header>
 
-      <div className={styles.banner} onClick={handleOpenModal}>
+      <div className={styles.banner} >
         <img src="/Volcanic-Mud-and-Springs-at-Hacienda-Guachipelin-photo-credit-valwyss.jpg" alt="Banner" className={styles.bannerImage} />
-        <button className={styles.playButton}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#63001a" stroke="#63001a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-play">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-        </button>
+        
       </div>
 
       {/* Modal del enlace */}
