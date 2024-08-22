@@ -10,7 +10,7 @@ function ClientList({ clients, onEditClient, onDeleteClient, setClients }) {
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const response = await fetch('http://localhost:5000/clients');
+                const response = await fetch('https://backend-hg.onrender.com/clients');
                 if (response.ok) {
                     const data = await response.json();
                     setClients(data);
@@ -53,7 +53,7 @@ function ClientList({ clients, onEditClient, onDeleteClient, setClients }) {
     const handleDeleteClick = async (clientId) => { // Recibe el _id del cliente
         if (window.confirm('¿Estás seguro de que quieres eliminar este cliente?')) {
             try {
-                const response = await fetch(`http://localhost:5000/clients/${clientId}`, {
+                const response = await fetch(`https://backend-hg.onrender.com/clients/${clientId}`, {
                     method: 'DELETE',
                 });
 
@@ -91,7 +91,7 @@ function ClientList({ clients, onEditClient, onDeleteClient, setClients }) {
         if (window.confirm('¿Estás seguro de que quieres eliminar los clientes seleccionados?')) {
             try {
                 for (const clientId of selectedClients) {
-                    const response = await fetch(`http://localhost:5000/clients/${clientId}`, { method: 'DELETE' });
+                    const response = await fetch(`https://backend-hg.onrender.com/clients/${clientId}`, { method: 'DELETE' });
                     if (!response.ok) {
                         console.error('Error al eliminar el cliente:', response.statusText);
                     }

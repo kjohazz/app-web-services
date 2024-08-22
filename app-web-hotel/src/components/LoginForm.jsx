@@ -14,7 +14,7 @@ function LoginForm() {
 
         try {
             const endpoint = isRegistering ? '/auth/register' : '/auth/login'; // Cambia el endpoint según el modo
-            const response = await fetch(`http://localhost:5000${endpoint}`, {
+            const response = await fetch(`https://backend-hg.onrender.com${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

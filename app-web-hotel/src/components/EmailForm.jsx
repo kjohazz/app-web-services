@@ -33,7 +33,7 @@ function EmailForm({ onClientAdded, emailTemplate }) {
 
         try {
             // 1. Enviar datos del cliente al backend para guardar en MongoDB
-            const addClientResponse = await fetch('http://localhost:5000/add-client', {
+            const addClientResponse = await fetch('https://backend-hg.onrender.com/add-client', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ function EmailForm({ onClientAdded, emailTemplate }) {
                 onClientAdded(newClient);
 
                 // 2. Enviar correo electrónico después de guardar el cliente
-                const sendEmailResponse = await fetch('http://localhost:5000/send-email', {
+                const sendEmailResponse = await fetch('https://backend-hg.onrender.com/send-email', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

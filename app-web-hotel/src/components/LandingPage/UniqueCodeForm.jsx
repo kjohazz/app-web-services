@@ -14,7 +14,7 @@ function UniqueCodeForm() {
 
     try {
       // Consulta a la base de datos para buscar el cliente por código único
-      const response = await fetch(`http://localhost:5000/clients/code/${uniqueCode}`); // Endpoint para buscar por uniqueCode
+      const response = await fetch(`https://backend-hg.onrender.com/clients/code/${uniqueCode}`); // Endpoint para buscar por uniqueCode
       if (response.ok) {
         const clientData = await response.json();
         setClient(clientData); // Almacena el cliente encontrado

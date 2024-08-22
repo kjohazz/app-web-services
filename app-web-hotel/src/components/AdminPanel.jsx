@@ -16,7 +16,7 @@ function AdminPanel() {
         // Cargar clientes desde el backend
         const fetchClients = async () => {
             try {
-                const response = await fetch('http://localhost:5000/clients');
+                const response = await fetch('https://backend-hg.onrender.com/clients');
                 if (response.ok) {
                     const data = await response.json();
                     setClients(data);
@@ -31,7 +31,7 @@ function AdminPanel() {
         // Cargar plantilla de correo desde el backend
         const fetchEmailTemplate = async () => {
             try {
-                const response = await fetch('http://localhost:5000/email-template');
+                const response = await fetch('https://backend-hg.onrender.com/email-template');
                 if (response.ok) {
                     const template = await response.json();
                     setEmailTemplate(template.content);
@@ -40,7 +40,7 @@ function AdminPanel() {
                     const defaultTemplate = {
                         content: "Estimado/a cliente,\n\nGracias por elegir..."
                     };
-                    const res = await fetch('http://localhost:5000/email-template', {
+                    const res = await fetch('https://backend-hg.onrender.com/email-template', {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ function AdminPanel() {
 
     const handleAddClient = async (newClient) => {
         try {
-            const response = await fetch('http://localhost:5000/add-client', {
+            const response = await fetch('https://backend-hg.onrender.com/add-client', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ function AdminPanel() {
 
             if (response.ok) {
                 // Obtener la lista actualizada de clientes desde el backend
-                const updatedClientsResponse = await fetch('http://localhost:5000/clients');
+                const updatedClientsResponse = await fetch('https://backend-hg.onrender.com/clients');
                 if (updatedClientsResponse.ok) {
                     const updatedClients = await updatedClientsResponse.json();
                     setClients(updatedClients);
@@ -91,7 +91,7 @@ function AdminPanel() {
 
     const handleUpdateClient = async (updatedClient) => {
         try {
-            const response = await fetch(`http://localhost:5000/clients/${updatedClient._id}`, {
+            const response = await fetch(`https://backend-hg.onrender.com/clients/${updatedClient._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ function AdminPanel() {
 
             if (response.ok) {
                 // Obtener la lista actualizada de clientes desde el backend
-                const updatedClientsResponse = await fetch('http://localhost:5000/clients');
+                const updatedClientsResponse = await fetch('https://backend-hg.onrender.com/clients');
                 if (updatedClientsResponse.ok) {
                     const updatedClients = await updatedClientsResponse.json();
                     setClients(updatedClients);
@@ -119,13 +119,13 @@ function AdminPanel() {
 
     const handleDeleteClient = async (clientId) => {
         try {
-            const response = await fetch(`http://localhost:5000/clients/${clientId}`, {
+            const response = await fetch(`https://backend-hg.onrender.com/clients/${clientId}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
                 // Obtener la lista actualizada de clientes desde el backend
-                const updatedClientsResponse = await fetch('http://localhost:5000/clients');
+                const updatedClientsResponse = await fetch('https://backend-hg.onrender.com/clients');
                 if (updatedClientsResponse.ok) {
                     const updatedClients = await updatedClientsResponse.json();
                     setClients(updatedClients);
@@ -150,7 +150,7 @@ function AdminPanel() {
 
     const handleSaveTemplate = async (newTemplate) => {
         try {
-            const response = await fetch('http://localhost:5000/email-template', {
+            const response = await fetch('https://backend-hg.onrender.com/email-template', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
