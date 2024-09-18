@@ -11,6 +11,10 @@ const bcrypt = require('bcrypt');
 const User = require('./User');
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://HaciendaG258:qyXAHvvQCrYFzcrE@cluster01.3gpscyc.mongodb.net/?retryWrites=true&w=majority';
 
+
+const mailgun = require('mailgun-js');
+const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN });
+
 mongoose.connect(mongoURI, { useUnifiedTopology: true })
     .then(() => console.log('Conexión exitosa a MongoDB Atlas'))
     .catch(err => console.error('Error de conexión a MongoDB:', err));
@@ -29,31 +33,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
-    },
-    tls: {
-        minVersion: 'TLSv1.2',
-        rejectUnauthorized: false
-        // Omitir verificación del certificado (solo para pruebas)
-    },
-    debug: true // Habilitar modo de depuración
-});
-
-console.log('Configuración de Nodemailer:', transporter.options);
-transporter.verify(function (error, success) {
-    if (error) {
-        console.error('Error al conectar al servidor SMTP:', error);
-    } else {
-        console.log('Conexión al servidor SMTP establecida correctamente');
-    }
-});
-
+console.log(process.env.MAILGUN_API_KEY)
+console.log(process.env.MAILGUN_DOMAIN)
+console.log(mg)
 
 // Endpoint para enviar correos electrónicos
 app.post('/send-email', (req, res) => {
@@ -66,19 +48,20 @@ app.post('/send-email', (req, res) => {
         html: body
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    mg.messages().send(mailOptions, function (error, body) {
         if (error) {
             console.error('Error al enviar el correo:', error);
             res.status(500).send('Error al enviar el correo');
         } else {
-            console.log('Correo enviado:', info.response);
+            console.log(body);
             res.send('Correo enviado correctamente');
         }
     });
 });
 
+
 // Manejar solicitudes OPTIONS para preflight
-app.options('/send-email', cors()); // Habilita CORS para solicitudes OPTIONS a esta ruta
+app.options('/send-email', cors());
 
 // Iniciar el servidor
 app.listen(port, () => {
